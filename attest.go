@@ -27,6 +27,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"path/filepath"
 	"strings"
 	"time"
 	//	"strconv"
@@ -59,11 +60,21 @@ func main() {
 	formatPtr := flag.String("f", "oberon", "attest comment style")
 	pkeyPtr := flag.String("p", os.Getenv("HOME")+"/.ssh/id_rsa", "path to rsa private key file")
 	bkeyPtr := flag.String("b", os.Getenv("HOME")+"/.ssh/id_rsa.pub", "path to rsa public key file")
+	checkPtr := flag.Bool("c", false, "check instead of sign")	
 
 	flag.Parse()
 
+	iam := filepath.Base(os.Args[0])
+        if iam == "acheck" {
+		f := true
+		checkPtr = &f
+	}
 	message, _ := ioutil.ReadFile(*inFilePtr)
         
+	if *checkPtr {
+		fmt.Println("Checking signature integrity")
+	}else{
+
         al := strings.Split(*aMessagePtr, ":")
 	trail := "\n"
         for _, v := range al {
@@ -106,4 +117,5 @@ func main() {
 	fmt.Println(cl + "----------------------------------------------------------------------------------------" + cr)
 	fmt.Println(cl, bks[0:86], cr+"\n"+cl, bks[86:172], cr+"\n"+cl, bks[172:258], cr+"\n"+cl, bks[258:344], cr+"\n"+cl, bks[344:], spaces[:85-len(bks[344:])], cr)
 	fmt.Println(cl + "----------------------------------------------------------------------------------------" + cr)
+	}
 }
