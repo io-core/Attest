@@ -69,13 +69,18 @@ func main() {
 		f := true
 		checkPtr = &f
 	}
-	message, _ := ioutil.ReadFile(*inFilePtr)
+	contents, _ := ioutil.ReadFile(*inFilePtr)
         
 	if *checkPtr {
 		fmt.Println("Checking signature integrity")
 	}else{
+		sign( contents, *aMessagePtr, *formatPtr, *pkeyPtr, *bkeyPtr )
+	}
+}
 
-        al := strings.Split(*aMessagePtr, ":")
+func sign( contents []byte, asserts, format, pkeyf, bkeyf string ){
+
+        al := strings.Split( asserts, ":")
 	trail := "\n"
         for _, v := range al {
                 trail=trail+v+"\n"
@@ -84,21 +89,21 @@ func main() {
         now := fmt.Sprint(time.Now().Format("2006-01-02 15:04:05"))
         trail=trail+now+"\n"
 
-	message = append(message,trail...)
+	message := append(contents,trail...)
 	hashed := sha256.Sum256(message)
 
 	cl := "(*"
 	cr := "*)"
-	if *formatPtr == "go" || *formatPtr == "c" {
+	if format == "go" || format == "c" {
 		cl = "//"
 		cr = "//"
 	}
-	if *formatPtr == "bash" || *formatPtr == "csharp" {
+	if format == "bash" || format == "csharp" {
 		cl = " #"
 		cr = "# "
 	}
 
-	parsedKey, bks := getKeys( *pkeyPtr, *bkeyPtr )
+	parsedKey, bks := getKeys( pkeyf, bkeyf )
 
 	signature, err := rsa.SignPKCS1v15(rand.Reader, parsedKey, crypto.SHA256, hashed[:])
 	if err != nil {
@@ -117,5 +122,5 @@ func main() {
 	fmt.Println(cl + "----------------------------------------------------------------------------------------" + cr)
 	fmt.Println(cl, bks[0:86], cr+"\n"+cl, bks[86:172], cr+"\n"+cl, bks[172:258], cr+"\n"+cl, bks[258:344], cr+"\n"+cl, bks[344:], spaces[:85-len(bks[344:])], cr)
 	fmt.Println(cl + "----------------------------------------------------------------------------------------" + cr)
-	}
+	
 }
