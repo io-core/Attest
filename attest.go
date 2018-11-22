@@ -53,30 +53,6 @@ func getKeys( pkfn, bkfn string ) ( *rsa.PrivateKey, string) {
 	return parsedKey, bks
 }
 
-func main() {
-
-	inFilePtr := flag.String("i", "-", "input file")
-	aMessagePtr := flag.String("a", "signed", "attest message")
-	formatPtr := flag.String("f", "oberon", "attest comment style")
-	pkeyPtr := flag.String("p", os.Getenv("HOME")+"/.ssh/id_rsa", "path to rsa private key file")
-	bkeyPtr := flag.String("b", os.Getenv("HOME")+"/.ssh/id_rsa.pub", "path to rsa public key file")
-	checkPtr := flag.Bool("c", false, "check instead of sign")	
-
-	flag.Parse()
-
-	iam := filepath.Base(os.Args[0])
-        if iam == "acheck" {
-		f := true
-		checkPtr = &f
-	}
-	contents, _ := ioutil.ReadFile(*inFilePtr)
-        
-	if *checkPtr {
-		fmt.Println("Checking signature integrity")
-	}else{
-		sign( contents, *aMessagePtr, *formatPtr, *pkeyPtr, *bkeyPtr )
-	}
-}
 
 func sign( contents []byte, asserts, format, pkeyf, bkeyf string ){
 
@@ -124,3 +100,30 @@ func sign( contents []byte, asserts, format, pkeyf, bkeyf string ){
 	fmt.Println(cl + "----------------------------------------------------------------------------------------" + cr)
 	
 }
+
+func main() {
+
+        inFilePtr := flag.String("i", "-", "input file")
+        aMessagePtr := flag.String("a", "signed", "attest message")
+        formatPtr := flag.String("f", "oberon", "attest comment style")
+        pkeyPtr := flag.String("p", os.Getenv("HOME")+"/.ssh/id_rsa", "path to rsa private key file")
+        bkeyPtr := flag.String("b", os.Getenv("HOME")+"/.ssh/id_rsa.pub", "path to rsa public key file")
+        checkPtr := flag.Bool("c", false, "check instead of sign")
+
+        flag.Parse()
+
+        iam := filepath.Base(os.Args[0])
+        if iam == "acheck" {
+                f := true
+                checkPtr = &f
+        }
+        contents, _ := ioutil.ReadFile(*inFilePtr)
+
+        if *checkPtr {
+                fmt.Println("Checking signature integrity")
+        }else{
+                sign( contents, *aMessagePtr, *formatPtr, *pkeyPtr, *bkeyPtr )
+        }
+}
+
+
