@@ -64,16 +64,17 @@ func main() {
 
 	message, _ := ioutil.ReadFile(*inFilePtr)
         
-	message = message +"\n"
+        al := strings.Split(*aMessagePtr, ":")
+	trail := "\n"
         for _, v := range al {
-                message=message+v+"\n"
+                trail=trail+v+"\n"
         }       
         
         now := fmt.Sprint(time.Now().Format("2006-01-02 15:04:05"))
-        message=message+now+"\n"
+        trail=trail+now+"\n"
 
+	message = append(message,trail...)
 	hashed := sha256.Sum256(message)
-        al := strings.Split(*aMessagePtr, ":")
 
 	cl := "(*"
 	cr := "*)"
@@ -106,20 +107,3 @@ func main() {
 	fmt.Println(cl, bks[0:86], cr+"\n"+cl, bks[86:172], cr+"\n"+cl, bks[172:258], cr+"\n"+cl, bks[258:344], cr+"\n"+cl, bks[344:], spaces[:85-len(bks[344:])], cr)
 	fmt.Println(cl + "----------------------------------------------------------------------------------------" + cr)
 }
-
-//----Attest-1.0.0------------------------------------------------------------------------//
-// signed                                                                                 //
-// original                                                                               //
-// 2018-11-22 08:47:55                                                                    //
-//----------------------------------------------------------------------------------------//
-// knJwZQ/bkpCMqEURSTCCzcAXTjJLKgikrN02i2/Jg0iQRE5AYN8OsJ/iuD50wDjZQZMxoLx+thyhQpZHY+AcWS //
-// a1E6cPOJ9qz/GGJo472gFR230V3wQSokBsPFFzOP0s1meSuqMMFuuqbwfYGMolFApZDaMmzfkSKIYUmLIVe5t8 //
-// p0Y09IyWJJH4xXv/Tp5fCwLcHK65jUHNLL/ueUqCqegwHZPQgpU9TCIrp2ViKH2wgUz3uBcMDmzk5Crk0xpgHw //
-// O+wfP3nc05aPJNle04RRmRPC4YxtiyPsScz8sA+fvMjzPFEa9+FITS07YjCgDdc0ANxWcqMszsyqOB2iNZcQ== //
-//----------------------------------------------------------------------------------------//
-// ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDsrtAUhLbs/ELXgH3OJs0SKh7tSQE/gkPavHv4//tsLucTAN //
-// C4mEjbjxKtFlZjji89GGvatnGu3DvAAz60VNEGBccezdn4rkcNpceKQe2KE2Kb13KM6VmrNl4Gj3+C278u0yKx //
-// l07WpQCYJ1x6WU8Tnrs5oRSGvHzJVvkxbH7YfymnoXbDg2j8cWYX+zNR/aYvcX+6isZmqRDg+qZ1CK45UL0sO9 //
-// GcSFyey3fGigzWGvBx9JujvsxL6aqX7yY+WtCbApeGLN4HYtrn4ueuKAQND5EYo0SEI2m+STt5eCdDBLFhG0jD //
-// 5MO6T7o//Mg8qDeuiY5wpbcQdpVWmdWQQxMT chuck@kuracali.com                                //
-//----------------------------------------------------------------------------------------//
