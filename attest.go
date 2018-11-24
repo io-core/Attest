@@ -58,7 +58,7 @@ func getKeys( pkfn, bkfn string ) ( *rsa.PrivateKey, string) {
 
 func sign( contents []byte, asserts, format, pkeyf, bkeyf string ){
 
-        al := strings.Split( asserts, ":")
+        al := strings.Split( asserts, ",")
 	trail := "\n"
         for _, v := range al {
                 trail=trail+v+"\n"
@@ -67,6 +67,7 @@ func sign( contents []byte, asserts, format, pkeyf, bkeyf string ){
         now := fmt.Sprint(time.Now().Format("2006-01-02 15:04:05"))
         trail=trail+now+"\n"
 
+	pretrail:= sha256.Sum256(contents)
 	message := append(contents,trail...)
 	hashed := sha256.Sum256(message)
 
@@ -100,6 +101,10 @@ func sign( contents []byte, asserts, format, pkeyf, bkeyf string ){
 	fmt.Println(cl + "----------------------------------------------------------------------------------------" + cr)
 	fmt.Println(cl, bks[0:86], cr+"\n"+cl, bks[86:172], cr+"\n"+cl, bks[172:258], cr+"\n"+cl, bks[258:344], cr+"\n"+cl, bks[344:], spaces[:85-len(bks[344:])], cr)
 	fmt.Println(cl + "----------------------------------------------------------------------------------------" + cr)
+
+        fmt.Println(pretrail)
+	fmt.Println(hashed)
+	fmt.Println([]byte(trail))
 	
 }
 
@@ -107,7 +112,7 @@ func shave( s, d string ) string {
 	r := ""
 	x := strings.Split(s,"\n")
 	for i,v:=range x {
-	  r=r+v[3:len(v)-3]
+	  r=r+strings.TrimSpace(v[3:len(v)-3])
 	  if i < len(x) {
 		r=r+d
 	  }
@@ -151,9 +156,16 @@ func findSig( contents []byte ) ( o int, al, hl, bl string){
 func check( contents []byte ) {
 
 	o, al, hl, bl := findSig( contents )
+	
+        pretrail := sha256.Sum256(contents[:o])
+	message := append(contents[:o],"\n"+al...)
+        hashed := sha256.Sum256(message)
 
-	fmt.Println(string(contents[:o]), al,hl,bl)
-
+        fmt.Println(pretrail)
+	fmt.Println(hashed)
+	fmt.Println([]byte(al))
+	fmt.Println(hl)
+	fmt.Println(bl)
 }
 
 func main() {
@@ -180,19 +192,3 @@ func main() {
                 sign( contents, *aMessagePtr, *formatPtr, *pkeyPtr, *bkeyPtr )
         }
 }
-
-//----Attest-0.1.0------------------------------------------------------------------------//
-// signed,original                                                                        //
-// 2018-11-23 17:29:47                                                                    //
-//----------------------------------------------------------------------------------------//
-// J/ZDYX4vmEt0VJdYm19Y2OUsaJJ11xMgag2mr7ZIuPn5Da8oZJWxe/hrHP2MvoC75dry2YkqifpHu6xj6ZCj68 //
-// U1tiyzZbUyyR6/JJ7CSOqef+fh3FTxRV6ZbdddzfK2wnOdzV5QjtcN3AruFvIroHQdwPoXhHbM3H+xX46KJAhy //
-// 7Fa21YR3YEnjLweQQGFxVnqPhbmPWKOcHtEOPn9IFDCHGPPGWt/kfriRPwTOAoAaSk5NmsiPY3ZjHvWo/nTONa //
-// 7JqkHPnk03jnPs+fwfSlzmWiFwj1YM0QVfIjiEywT/PjWppn/4oy33dedkG3o41D6Y200G0I7t4vbKbIQ+BA== //
-//----------------------------------------------------------------------------------------//
-// ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDsrtAUhLbs/ELXgH3OJs0SKh7tSQE/gkPavHv4//tsLucTAN //
-// C4mEjbjxKtFlZjji89GGvatnGu3DvAAz60VNEGBccezdn4rkcNpceKQe2KE2Kb13KM6VmrNl4Gj3+C278u0yKx //
-// l07WpQCYJ1x6WU8Tnrs5oRSGvHzJVvkxbH7YfymnoXbDg2j8cWYX+zNR/aYvcX+6isZmqRDg+qZ1CK45UL0sO9 //
-// GcSFyey3fGigzWGvBx9JujvsxL6aqX7yY+WtCbApeGLN4HYtrn4ueuKAQND5EYo0SEI2m+STt5eCdDBLFhG0jD //
-// 5MO6T7o//Mg8qDeuiY5wpbcQdpVWmdWQQxMT chuck@kuracali.com                                //
-//----------------------------------------------------------------------------------------//
