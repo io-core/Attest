@@ -30,7 +30,7 @@ import (
 	"path/filepath"
 	"strings"
 	"time"
-	//	"strconv"
+	//"bytes"
 	"crypto"
 	"crypto/rand"
 	"crypto/rsa"
@@ -39,6 +39,8 @@ import (
 	"encoding/base64"
 	"encoding/pem"
 )
+
+const atestline = "----Attest-0.1.0------------------------------------------------------------------------"
 
 func getKeys( pkfn, bkfn string ) ( *rsa.PrivateKey, string) {
 
@@ -88,7 +90,7 @@ func sign( contents []byte, asserts, format, pkeyf, bkeyf string ){
 
 	spaces := "                                                                                                    "
 	encoded := base64.StdEncoding.EncodeToString(signature)
-	fmt.Println("\n"+ cl + "----Attest-1.0.0------------------------------------------------------------------------" + cr)
+	fmt.Println("\n"+ cl + atestline + cr)
 	for _, v := range al {
 		fmt.Println(cl, v, spaces[:85-len(v)], cr)
 	}
@@ -99,6 +101,59 @@ func sign( contents []byte, asserts, format, pkeyf, bkeyf string ){
 	fmt.Println(cl, bks[0:86], cr+"\n"+cl, bks[86:172], cr+"\n"+cl, bks[172:258], cr+"\n"+cl, bks[258:344], cr+"\n"+cl, bks[344:], spaces[:85-len(bks[344:])], cr)
 	fmt.Println(cl + "----------------------------------------------------------------------------------------" + cr)
 	
+}
+
+func shave( s, d string ) string {
+	r := ""
+	x := strings.Split(s,"\n")
+	for i,v:=range x {
+	  r=r+v[3:len(v)-3]
+	  if i < len(x) {
+		r=r+d
+	  }
+	}
+	return r
+}
+
+func findSig( contents []byte ) ( o int, al, hl, bl string){
+
+	s:=strings.Split(string(contents),atestline)
+	sig:=""
+	cl:=""
+	cr:=""
+	
+	if len(s) > 1 {
+		for i:=0;i<len(s)-1;i++ {
+			fmt.Println("checking location",i)
+			if len(s[i])>1 && len(s[i+1]) > 1 {
+				if (s[i][len(s[i])-2:] == "//" && s[i+1][0:2] == "//") || (s[i][len(s[i])-2:] == "(*" && s[i+1][0:2] == "*)") {
+					for j:=0;j<=i;j++{
+						o=o+len(s[j])+len(atestline)
+					}
+					o=o-len(atestline)-3
+					
+					sig=s[i+1][2:]
+					cl=s[i][len(s[i])-2:]
+					cr=s[i+1][0:2]
+				}
+			}
+		}
+	}
+	sep:="\n"+cl+"----------------------------------------------------------------------------------------"+cr+"\n"
+        sect:=strings.Split(sig,sep)
+	al=shave(sect[0][1:],"\n")
+        hl=shave(sect[1],"")
+        bl=shave(sect[2],"")
+        
+	return o, al, hl, bl
+}
+
+func check( contents []byte ) {
+
+	o, al, hl, bl := findSig( contents )
+
+	fmt.Println(string(contents[:o]), al,hl,bl)
+
 }
 
 func main() {
@@ -120,10 +175,24 @@ func main() {
         contents, _ := ioutil.ReadFile(*inFilePtr)
 
         if *checkPtr {
-                fmt.Println("Checking signature integrity")
+                check( contents )
         }else{
                 sign( contents, *aMessagePtr, *formatPtr, *pkeyPtr, *bkeyPtr )
         }
 }
 
-
+//----Attest-0.1.0------------------------------------------------------------------------//
+// signed,original                                                                        //
+// 2018-11-23 17:29:47                                                                    //
+//----------------------------------------------------------------------------------------//
+// J/ZDYX4vmEt0VJdYm19Y2OUsaJJ11xMgag2mr7ZIuPn5Da8oZJWxe/hrHP2MvoC75dry2YkqifpHu6xj6ZCj68 //
+// U1tiyzZbUyyR6/JJ7CSOqef+fh3FTxRV6ZbdddzfK2wnOdzV5QjtcN3AruFvIroHQdwPoXhHbM3H+xX46KJAhy //
+// 7Fa21YR3YEnjLweQQGFxVnqPhbmPWKOcHtEOPn9IFDCHGPPGWt/kfriRPwTOAoAaSk5NmsiPY3ZjHvWo/nTONa //
+// 7JqkHPnk03jnPs+fwfSlzmWiFwj1YM0QVfIjiEywT/PjWppn/4oy33dedkG3o41D6Y200G0I7t4vbKbIQ+BA== //
+//----------------------------------------------------------------------------------------//
+// ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDsrtAUhLbs/ELXgH3OJs0SKh7tSQE/gkPavHv4//tsLucTAN //
+// C4mEjbjxKtFlZjji89GGvatnGu3DvAAz60VNEGBccezdn4rkcNpceKQe2KE2Kb13KM6VmrNl4Gj3+C278u0yKx //
+// l07WpQCYJ1x6WU8Tnrs5oRSGvHzJVvkxbH7YfymnoXbDg2j8cWYX+zNR/aYvcX+6isZmqRDg+qZ1CK45UL0sO9 //
+// GcSFyey3fGigzWGvBx9JujvsxL6aqX7yY+WtCbApeGLN4HYtrn4ueuKAQND5EYo0SEI2m+STt5eCdDBLFhG0jD //
+// 5MO6T7o//Mg8qDeuiY5wpbcQdpVWmdWQQxMT chuck@kuracali.com                                //
+//----------------------------------------------------------------------------------------//
