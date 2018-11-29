@@ -30,7 +30,7 @@ import (
 	"path/filepath"
 	"strings"
 	"time"
-	//"bytes"
+	//"math"
 	"crypto"
 	"crypto/rand"
 	"crypto/rsa"
@@ -97,15 +97,44 @@ func sign( contents []byte, asserts, format, pkeyf, bkeyf string ){
 	}
 	fmt.Println(cl, now, spaces[:85-len(now)], cr)
 	fmt.Println(cl + "----------------------------------------------------------------------------------------" + cr)
-	fmt.Println(cl, encoded[0:86], cr+"\n"+cl, encoded[86:172], cr+"\n"+cl, encoded[172:258], cr+"\n"+cl, encoded[258:], cr)
+	emit( encoded, spaces, cl, cr )
+	//fmt.Println(cl, encoded[0:86], cr+"\n"+cl, encoded[86:172], cr+"\n"+cl, encoded[172:258], cr+"\n"+cl, encoded[258:], cr)
 	fmt.Println(cl + "----------------------------------------------------------------------------------------" + cr)
-	fmt.Println(cl, bks[0:86], cr+"\n"+cl, bks[86:172], cr+"\n"+cl, bks[172:258], cr+"\n"+cl, bks[258:344], cr+"\n"+cl, bks[344:], spaces[:85-len(bks[344:])], cr)
+	
+	emit( bks, spaces, cl, cr )
+		
+	//fmt.Println(cl, bks[0:86], cr+"\n"+cl, bks[86:172], cr+"\n"+cl, bks[172:258], cr+"\n"+cl, bks[258:344], cr+"\n"+cl, bks[344:], spaces[:85-len(bks[344:])], cr)
 	fmt.Println(cl + "----------------------------------------------------------------------------------------" + cr)
 
         fmt.Println(pretrail)
 	fmt.Println(hashed)
 	fmt.Println([]byte(trail))
 	
+}
+
+func emit( s, spaces, cl, cr string ){
+
+        for x:=0;x<len(s);x=x+86{
+                mo := min(x+86,len(s))
+                trail:=""
+                if mo != x+86 {
+                        trail = spaces[:(x+86)-len(s)-1]
+                        fmt.Println(cl, s[x:mo],trail, cr)
+                }else{
+                        fmt.Println(cl, s[x:mo], cr)
+                }
+
+        }
+
+
+}
+
+
+func min(x, y int) int {
+    if x < y {
+        return x
+    }
+    return y
 }
 
 func shave( s, d string ) string {
