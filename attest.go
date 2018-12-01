@@ -179,7 +179,7 @@ func findSig(contents []byte) (o int, al, hl, bl string) {
 	if len(s) > 1 {
 		for i := 0; i < len(s)-1; i++ {
 			if len(s[i]) > 1 && len(s[i+1]) > 1 {
-				if (s[i][len(s[i])-2:] == "//" && s[i+1][0:2] == "//") || (s[i][len(s[i])-2:] == "(*" && s[i+1][0:2] == "*)") {
+				if (s[i][len(s[i])-3:len(s[i])-2] == "\n" && s[i+1][2:3] == "\n") {
 					for j := 0; j <= i; j++ {
 						o = o + len(s[j]) + len(atestline)
 					}
@@ -295,12 +295,12 @@ func main() {
 
 //----Attest-0.1.0------------------------------------------------------------------------//
 // signed                                                                                 //
-// 2018-12-01 09:28:22                                                                    //
+// 2018-12-01 11:40:11                                                                    //
 //----------------------------------------------------------------------------------------//
-// 3EilaQdgSbRia+0itEA+ac9/BL4tgyzdw8Jk74v+cSPQ7ndE5NLnzKRXfqldCdV3B3E+tJQwQuG1iVTG/Bd8iz //
-// hcsnkzFXDU4evc1Pa+8HHWBCeq1r9cTkHxNepLMsN6QE0HAxqfw5+khd1TNPUG+EXoEROQoNMiMnABEunea7tx //
-// aoYWQCClfauHcEMx03rqTpPyHa1MfhzRqjP+l3DwRfAzplHBhy9apn5jjbF4pZbRPC88PASJct2EJabdjukia+ //
-// xGv/j9FvKOzC/XAvlmhmxkll3xo4Z5UlTTEM4lvQ7ydmei8pJ2nTVP6nZkDw+Um/o4BXdXrikFPoaTpp7SXg== //
+// 3Yi2FKUt0F+JXV2O5aYua8VpjE7yun7KSx+AcVmIeQ/6ne/hqJSspp7B1LLWkZPovBORWq/kAT1+eMSZ44aBRR //
+// sAc2rDAHoKzWG4r6JmEwBSDMSISh7SbxY6gHLZmJXWzbapuZXUhrnhNWb31IZrJQVrSlQhZlE6uVvH6WcjjRJy //
+// MNAwpnMbiFHSa0GdOUZp2tRLBRmpbsgbfnJy7p0rI9aFEMt+N515gxeCDVbocGXuTdW3YpNYFjw8eqvBWit5/U //
+// chnH/co3ODxqjeVqylriyf/IRppXCIdIrbKdTnP5uILq2IuUN9B04sQi+G30O0fAOnSyFqarslDaCrFsL+ag== //
 //----------------------------------------------------------------------------------------//
 // ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDsrtAUhLbs/ELXgH3OJs0SKh7tSQE/gkPavHv4//tsLucTAN //
 // C4mEjbjxKtFlZjji89GGvatnGu3DvAAz60VNEGBccezdn4rkcNpceKQe2KE2Kb13KM6VmrNl4Gj3+C278u0yKx //
