@@ -243,6 +243,7 @@ func check(contents []byte) {
 
 }
 
+
 func findFormat(s string)(l,r string){
 	
         for _,v := range strings.Split( formatc, "\n"){
@@ -266,6 +267,7 @@ func main() {
 	pkeyPtr := flag.String("p", os.Getenv("HOME")+"/.ssh/id_rsa", "path to rsa private key file")
 	bkeyPtr := flag.String("b", os.Getenv("HOME")+"/.ssh/id_rsa.pub", "path to rsa public key file")
 	checkPtr := flag.Bool("c", false, "check instead of sign")
+        rkeyPtr := flag.Bool("k", false, "retrieve public key from input file")
 
 	flag.Parse()
 
@@ -285,8 +287,11 @@ func main() {
 	  contents, _ = ioutil.ReadFile(*inFilePtr)
 	}
 
-	if *checkPtr {
-		check(contents)
+	if *rkeyPtr {
+	        _, _, _, bl := findSig(contents)
+	        fmt.Println(bl)
+        } else if *checkPtr {
+                check(contents)
 	} else {
 		l,r := findFormat(*formatPtr)
 		sign(contents, *aMessagePtr, l, r, *pkeyPtr, *bkeyPtr)
@@ -295,12 +300,12 @@ func main() {
 
 //----Attest-0.1.0------------------------------------------------------------------------//
 // signed                                                                                 //
-// 2018-12-01 11:40:11                                                                    //
+// 2018-12-01 13:43:14                                                                    //
 //----------------------------------------------------------------------------------------//
-// 3Yi2FKUt0F+JXV2O5aYua8VpjE7yun7KSx+AcVmIeQ/6ne/hqJSspp7B1LLWkZPovBORWq/kAT1+eMSZ44aBRR //
-// sAc2rDAHoKzWG4r6JmEwBSDMSISh7SbxY6gHLZmJXWzbapuZXUhrnhNWb31IZrJQVrSlQhZlE6uVvH6WcjjRJy //
-// MNAwpnMbiFHSa0GdOUZp2tRLBRmpbsgbfnJy7p0rI9aFEMt+N515gxeCDVbocGXuTdW3YpNYFjw8eqvBWit5/U //
-// chnH/co3ODxqjeVqylriyf/IRppXCIdIrbKdTnP5uILq2IuUN9B04sQi+G30O0fAOnSyFqarslDaCrFsL+ag== //
+// U2pKkIdkTbxWdDwu5JBaXtNV0IBZOGYpW+QKbmB37C/TV4kBx+5Qk12NrZWsSS4AEYHGMaj9vnMvlrmed8ijJW //
+// Dm9kpKpcwpNjx7LeJTW56wVIy304b6fFHjPm+SJ9wORZaBTkrj4KTMc0lsYP3YyhZqohb46ZGn0/fMzNIJ1Ep8 //
+// /CX80khkTpKIqhztRo95goyZHVn4l0hwvQs+Qb5OXHEJIMduqEiGL6f95J5Vz5utd2lz86omWx4yRDyBYA3aeB //
+// bHFvi8AcMD7H64uUEfXRnnqKuRmwdUf1QVZmVWUBaFXPHQI+Jqy361RL8f0xhYgtoyiLzriSz0BxuTXbRg5A== //
 //----------------------------------------------------------------------------------------//
 // ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDsrtAUhLbs/ELXgH3OJs0SKh7tSQE/gkPavHv4//tsLucTAN //
 // C4mEjbjxKtFlZjji89GGvatnGu3DvAAz60VNEGBccezdn4rkcNpceKQe2KE2Kb13KM6VmrNl4Gj3+C278u0yKx //
