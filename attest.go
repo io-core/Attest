@@ -41,7 +41,7 @@ import (
 )
 
 const atestline = "----Attest-0.1.0------------------------------------------------------------------------"
-
+const seperator = "----------------------------------------------------------------------------------------"
 const formatc = `
 --,--,ada
 //,//,actionscript
@@ -111,18 +111,6 @@ func sign(contents []byte, asserts, cl, cr, pkeyf, bkeyf string) {
 	trail = trail + now + "\n"
 	message := append(contents, trail...)
 	hashed := sha256.Sum256(message)
-
-	//cl := "(*"
-	//cr := "*)"
-	//if format == "go" || format == "c" {
-	//	cl = "//"
-	//	cr = "//"
-	//}
-	//if format == "bash" || format == "csharp" {
-	//	cl = " #"
-	//	cr = "# "
-	//}
-
 	parsedKey, bks := getKeys(pkeyf, bkeyf)
 
 	signature, err := rsa.SignPKCS1v15(rand.Reader, parsedKey, crypto.SHA256, hashed[:])
@@ -131,17 +119,18 @@ func sign(contents []byte, asserts, cl, cr, pkeyf, bkeyf string) {
 	}
 
 	spaces := "                                                                                                    "
+	
 	encoded := base64.StdEncoding.EncodeToString(signature)
 	fmt.Println("\n" + cl + atestline + cr)
 	for _, v := range al {
 		fmt.Println(cl, v, spaces[:85-len(v)], cr)
 	}
 	fmt.Println(cl, now, spaces[:85-len(now)], cr)
-	fmt.Println(cl + "----------------------------------------------------------------------------------------" + cr)
+	fmt.Println(cl + seperator + cr)
 	emit(encoded, spaces, cl, cr)
-	fmt.Println(cl + "----------------------------------------------------------------------------------------" + cr)
+	fmt.Println(cl + seperator + cr)
 	emit(bks, spaces, cl, cr)
-	fmt.Println(cl + "----------------------------------------------------------------------------------------" + cr)
+	fmt.Println(cl + seperator + cr)
 
 }
 
@@ -203,13 +192,16 @@ func findSig(contents []byte) (o int, al, hl, bl string) {
 			}
 		}
 	}
-	sep := "\n" + cl + "----------------------------------------------------------------------------------------" + cr + "\n"
+	sep := "\n" + cl + seperator + cr + "\n"
 	sect := strings.Split(sig, sep)
-
-	al = shave(sect[0][1:], "\n")
-	hl = shave(sect[1], "")
-	bl = shave(sect[2], "")
-
+	if len(sect)<3 {
+		fmt.Println("Signature not found!")
+		os.Exit(1)
+	}else{
+		al = shave(sect[0][1:], "\n")
+		hl = shave(sect[1], "")
+		bl = shave(sect[2], "")
+	}
 	return o, al, hl, bl
 }
 
@@ -242,8 +234,10 @@ func check(contents []byte) {
 
 		if err != nil {
 			fmt.Println("verify error:", err)
+			os.Exit(1)
 		} else {
 			fmt.Println("verify success!")
+			os.Exit(0)
 		}
 	}
 
@@ -292,12 +286,12 @@ func main() {
 
 //----Attest-0.1.0------------------------------------------------------------------------//
 // signed                                                                                 //
-// 2018-12-01 07:42:23                                                                    //
+// 2018-12-01 08:15:59                                                                    //
 //----------------------------------------------------------------------------------------//
-// XfToEaDOJitathoEIHcagUWDH/8x84xN1m4+J43BXmwBFxQKoXv53LPdIISiLFmTSYBI30MU+e1KmIeUUWDW9K //
-// DjiFimbg81HQZUEEjHlUobX4rlgEyqpHK1eIrYScxv+/8ba3CnW7Yx2rSwFuwHZndELreuREZo01yLk/+jW8Hc //
-// uzJ2ll/th8wJIvIf995reh+sPtNidbiW1qb0/DZcU65SbN42ejqvbGzcHss/vKscIDBrTDx/mQgmNfKRQVGljV //
-// EmFPFqOrPgF3eNgSUDrIF/qm4uIiH+oyFPGtXRIRB62NpCSUDMfDx4qWllKzeOgbSq1c7il4R4cYeKhaaPDg== //
+// 64w0xnwREeM0K8XyOag2RMWqLO97iz7HB7VmWLiLSMyww+ZmKSDquLYLCpFrWqNupN5f3b1gOxk1viZzBoA2TY //
+// IwuQ+6TLuj4DfAZdSq8T+WsmBNFUhwIWRezpzCNtaTqsfbwuTyBcR+xcTaRImzpBbNkSvp4A7q2A4A9ft2ex2w //
+// H1a1CQ1DPQgtFTkfwNGWE/8qFIDXjfmabzhiNCGxc7+U/PFeMDU6i+t/HrhqLX6cvmEsU/JLvAwYRNbuwOQ1AN //
+// iVkBGkF6Ezv9Rz1tBCouoe2jceZUBbXjzCmKa5UIz4+jdK1D5FWrPgVjco0ffDDHFAy5FP1cp2ztRVcnANHg== //
 //----------------------------------------------------------------------------------------//
 // ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDsrtAUhLbs/ELXgH3OJs0SKh7tSQE/gkPavHv4//tsLucTAN //
 // C4mEjbjxKtFlZjji89GGvatnGu3DvAAz60VNEGBccezdn4rkcNpceKQe2KE2Kb13KM6VmrNl4Gj3+C278u0yKx //
