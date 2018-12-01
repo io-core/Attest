@@ -23,6 +23,7 @@
 package main
 
 import (
+	"github.com/io-core/attest/s2r"
 	"flag"
 	"fmt"
 	"io/ioutil"
@@ -38,6 +39,7 @@ import (
 	"crypto/x509"
 	"encoding/base64"
 	"encoding/pem"
+	//"golang.org/x/crypto/ssh"
 )
 
 const atestline = "----Attest-0.1.0------------------------------------------------------------------------"
@@ -66,8 +68,6 @@ func sign( contents []byte, asserts, format, pkeyf, bkeyf string ){
         
         now := fmt.Sprint(time.Now().Format("2006-01-02 15:04:05"))
         trail=trail+now+"\n"
-
-	pretrail:= sha256.Sum256(contents)
 	message := append(contents,trail...)
 	hashed := sha256.Sum256(message)
 
@@ -98,18 +98,10 @@ func sign( contents []byte, asserts, format, pkeyf, bkeyf string ){
 	fmt.Println(cl, now, spaces[:85-len(now)], cr)
 	fmt.Println(cl + "----------------------------------------------------------------------------------------" + cr)
 	emit( encoded, spaces, cl, cr )
-	//fmt.Println(cl, encoded[0:86], cr+"\n"+cl, encoded[86:172], cr+"\n"+cl, encoded[172:258], cr+"\n"+cl, encoded[258:], cr)
-	fmt.Println(cl + "----------------------------------------------------------------------------------------" + cr)
-	
+	fmt.Println(cl + "----------------------------------------------------------------------------------------" + cr)	
 	emit( bks, spaces, cl, cr )
-		
-	//fmt.Println(cl, bks[0:86], cr+"\n"+cl, bks[86:172], cr+"\n"+cl, bks[172:258], cr+"\n"+cl, bks[258:344], cr+"\n"+cl, bks[344:], spaces[:85-len(bks[344:])], cr)
 	fmt.Println(cl + "----------------------------------------------------------------------------------------" + cr)
 
-        fmt.Println(pretrail)
-	fmt.Println(hashed)
-	fmt.Println([]byte(trail))
-	
 }
 
 func emit( s, spaces, cl, cr string ){
@@ -158,7 +150,6 @@ func findSig( contents []byte ) ( o int, al, hl, bl string){
 	
 	if len(s) > 1 {
 		for i:=0;i<len(s)-1;i++ {
-			fmt.Println("checking location",i)
 			if len(s[i])>1 && len(s[i+1]) > 1 {
 				if (s[i][len(s[i])-2:] == "//" && s[i+1][0:2] == "//") || (s[i][len(s[i])-2:] == "(*" && s[i+1][0:2] == "*)") {
 					for j:=0;j<=i;j++{
@@ -175,6 +166,7 @@ func findSig( contents []byte ) ( o int, al, hl, bl string){
 	}
 	sep:="\n"+cl+"----------------------------------------------------------------------------------------"+cr+"\n"
         sect:=strings.Split(sig,sep)
+	
 	al=shave(sect[0][1:],"\n")
         hl=shave(sect[1],"")
         bl=shave(sect[2],"")
@@ -185,16 +177,39 @@ func findSig( contents []byte ) ( o int, al, hl, bl string){
 func check( contents []byte ) {
 
 	o, al, hl, bl := findSig( contents )
-	
-        pretrail := sha256.Sum256(contents[:o])
 	message := append(contents[:o],"\n"+al...)
         hashed := sha256.Sum256(message)
+	signature, err := base64.StdEncoding.DecodeString(hl)
+	if err != nil {
+		fmt.Println(err)
+	}else{
 
-        fmt.Println(pretrail)
-	fmt.Println(hashed)
-	fmt.Println([]byte(al))
-	fmt.Println(hl)
-	fmt.Println(bl)
+
+		pubKeyString := s2r.Translate(bl)
+
+                block, berr := pem.Decode([]byte(pubKeyString))
+
+		if berr == nil {
+			fmt.Println(berr)
+			panic("failed to parse PEM block containing the public key")
+		}
+	
+		rpk, err := x509.ParsePKIXPublicKey(block.Bytes)
+		if err != nil {
+			panic("failed to parse DER encoded public key: " + err.Error())
+		}
+
+                rsaPubKey := rpk.(*rsa.PublicKey)
+		err = rsa.VerifyPKCS1v15(rsaPubKey, crypto.SHA256, hashed[:], signature)
+
+		if err != nil {
+			fmt.Println("verify error:", err)
+		}else{
+                        fmt.Println("verify success!")
+		}
+	}
+
+
 }
 
 func main() {
@@ -221,3 +236,27 @@ func main() {
                 sign( contents, *aMessagePtr, *formatPtr, *pkeyPtr, *bkeyPtr )
         }
 }
+
+//----Attest-0.1.0------------------------------------------------------------------------//
+// signed                                                                                 //
+// 2018-11-30 16:51:07                                                                    //
+//----------------------------------------------------------------------------------------//
+// IgN2YoEjqlE8btEOCnQfFazAyTvuGzo4R09JCdvqA7UiCxL7V0rkjVE/LPRMHcszhXG+ezq+dpY7dqBIfZCFDF //
+// 46dX8HGOZea8ZR3F4CXEqiNLTbJUZGKo1jj4CDEayNhGZPF6Z3b9x56Vk8BQxin1CFP0YyOo1AtmNzLRkweJG/ //
+// UvfzLNtlEPSo1AnkOQXVfajJkurNwijXabOPvFSAcky9sHkn3vSf1ZN03oaFRwCEpOfx8LER3kBwgHBsV6ropa //
+// xjJM/+DfHFLK8PiWld3GT57UPYLreK9znP/MV/4dH54nsulh7k+zkdt23D2kHsXq8zeB7fToNxPrQHqdKrk0AV //
+// oeOgtroI44NlWlL1VUoqwj8QdZ4SHl+7KrrNlg+gWRUlZxpsnzeLQyxee9WkHa/jtMFYKnYhq/6vIC6723ivvl //
+// +Tuu9CZhTE0NtzvpLXimF+2dXlDtkhxTQ1vJHbhUXu5HUzmyCCuqROL5vo+forfwghAitu6M+aao2Mq9O//Bfa //
+// K/YaQieTtJu3keWpmGCp4O0DV4MShV4BRpTq03bCQMt7aKKUO3huBMw4hZhNldAMluv/bohKXEb0fHGwMQL2im //
+// 18NKbBg4N74QGRlIGfFqWOsMM7SrmmvhJlulQvL/p7zz/DTOgZUL/G4ZMjF0OAM61juHsRpoyHLPx7qHw=     //
+//----------------------------------------------------------------------------------------//
+// ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCxIcfYK7mfqo7PNGmV1cq91Y8YJaQdajKleE54Tt+vj7hs0P //
+// O3be3PI9fbb0EifxjJ4QyhCvQClGOTe4Nw/0RRD1lHQVOHTeYE0BKnuLvHltyaxDc/glS5x6wy/YtnRHp5zVl2 //
+// C87BleRqtTyWfalhbRmLUl3WTiHQcPi8qXv3qJmAnDVieLLkHc4owwMgqYSeP2OJDdLszHwYM4fOgha48ByxCB //
+// MVQ8B9kX1F1wJTAkU6BxmNgp6XTTnOge8cTCNL3I2QCi5xVgXOHW+ndJ/kzS/P81dnvDo4TUlvDoHJl62tR2cB //
+// t2tKcB+ty4WxK8MOk4Y88x9KKCREY9j8ORhAfSjoZjU5zfQISBdJ0NfoQMVJ9hV14IHN+K/0dSPuik9FBd7UTJ //
+// T1w/LXPDHiqx+tT+RPaB7cZhPdjfO+JbrWviP/CprsBuk+VG9Z5vMZQg1PSPSQNQ9eLKfPVvGHCa2hpLV9p4Cw //
+// LdZ2QCp/HFhxDWYMu+dbcdjO8avs1BkLrifdZDUaQ+BvMLLWagwJQtqy/2GvcJ/ClzxZHDGqC18/bXgIgP7tW/ //
+// YwuBE9zuFYEkF49a7MnOf4rvlJ1TQYTQ721pc14jSRDO6v7iZDT1nxa/PoqH6j4O9uPNlHlGG3ViQ2uCC9nGLo //
+// WDtUwIaqIARB4SIyvIiua+rbdh8YnmuNQQ== cperkins@tae6640-mlap.tae.trialphaenergy.com      //
+//----------------------------------------------------------------------------------------//

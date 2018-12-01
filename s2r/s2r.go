@@ -4,6 +4,8 @@
  * Originally written by Jan Schaumann <jschauma@netmeister.org> in
  * December 2013.
  *
+ * Modified to be a callable library routine by Charles Perkins in 2018.
+ *
  * This code serves as an example of how to convert an ssh(1) RSA public
  * key into PKCS8 format.  The program reads exactly one ssh RSA pubkey
  * from STDIN and spits out the PKCS8 formatted version.
@@ -18,7 +20,7 @@
  * http://www.netmeister.org/blog/ssh2pkcs8.html
  */
 
-package main
+package s2r
 
 import (
 	"bytes"
@@ -28,10 +30,10 @@ import (
 	"encoding/binary"
 	"encoding/hex"
 	"fmt"
-	"io/ioutil"
+	//"io/ioutil"
 	"log"
 	"math/big"
-	"os"
+	//"os"
 	"strings"
 )
 
@@ -41,17 +43,8 @@ const MAX_COLUMNS = 64
  * Main
  */
 
-func main() {
-	if len(os.Args) > 1 {
-		log.Fatal("Unexpected arguments.  This program can only read input from stdin.")
-	}
-
-	input, err := ioutil.ReadAll(os.Stdin)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	key := string(input)
+func Translate(key string) string{
+	var rv string
 
 	/* An RSA SSH key can have leading key options (including quoted
 	 * whitespace) and trailing comments (including whitespace).  We
@@ -145,12 +138,39 @@ func main() {
 		log.Fatal("Unable to marshal pubkey (%v): %v", pubkey, err)
 	}
 
-	fmt.Printf("-----BEGIN PUBLIC KEY-----\n")
+	
+
+	rv = fmt.Sprintf("-----BEGIN PUBLIC KEY-----\n")
 	out := base64.StdEncoding.EncodeToString(enc)
 	for len(out) > MAX_COLUMNS {
-		fmt.Printf("%v\n", out[:MAX_COLUMNS])
+		rv = rv + fmt.Sprintf("%v\n", out[:MAX_COLUMNS])
 		out = out[MAX_COLUMNS:]
 	}
-	fmt.Printf("%v\n", out)
-	fmt.Printf("-----END PUBLIC KEY-----\n")
+	rv = rv + fmt.Sprintf("%v\n", out)
+	rv=rv+fmt.Sprintf("-----END PUBLIC KEY-----\n")
+	return rv
 }
+
+//----Attest-0.1.0------------------------------------------------------------------------//
+// signed                                                                                 //
+// 2018-11-30 16:50:43                                                                    //
+//----------------------------------------------------------------------------------------//
+// TlOiwI2kyxYbO+kLN+pSQYQgV+kqXNsgMkjvYPH8Y8QPFhayjeNNGGD8R71OeYTXuVbdHDvDnTL2T61RHOjB4P //
+// 47aUUVUz3kpETUCXvahB7b02Sn4dkSQZihP5LiyEYw2H4vbYytf+DEYDPpEwRUs2rDDpXjnJvuE96vet3RZBHm //
+// xptZYYWhO861AQZDJjI6mJIPXKs/1ywSBR9CZwIadJ3+PC/RbyaATttJthvMur5DSml9+eEvVhKAnuRyuS73BB //
+// GSXWNnk0JEwFjuM7OjLQxUsJmy9Xg7uObzSH6qLtZGb5NWVUiFlQWu48AsQnGNv7sduFTH7OKzgGM1+3sQW/hl //
+// kwea5TXl9L8NYNxmdTmZ751pxVBIVtsAF6QBz9F1sxn3c+o8/mnEFccsF6NJbSMVsMgy6FX4fBTSLZfWt6S8EI //
+// u/vRAP5kHJXKsG9d9MyeKF0YJxkMYoQJ5lfT14vhYgjH8aoggw+x/aqmDvGyk4ND3BTRjknGMJxMHgW8t96WC2 //
+// KEJOUUzzlDFvyKMGbKuD+bkUiHrRxF2mNdzPLgc7Jd5NsTFNLE3sUbE8tXPRrrWNg3IR3TMGJfZUAkqUYe88Sf //
+// RuCWnBjqlKw1VaoyDFSIF5y00trtP2O5/66XbsnbFmEYi81u/WztipvLWyeYv2l3oxVUT4xUgyzpxU7n4=     //
+//----------------------------------------------------------------------------------------//
+// ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCxIcfYK7mfqo7PNGmV1cq91Y8YJaQdajKleE54Tt+vj7hs0P //
+// O3be3PI9fbb0EifxjJ4QyhCvQClGOTe4Nw/0RRD1lHQVOHTeYE0BKnuLvHltyaxDc/glS5x6wy/YtnRHp5zVl2 //
+// C87BleRqtTyWfalhbRmLUl3WTiHQcPi8qXv3qJmAnDVieLLkHc4owwMgqYSeP2OJDdLszHwYM4fOgha48ByxCB //
+// MVQ8B9kX1F1wJTAkU6BxmNgp6XTTnOge8cTCNL3I2QCi5xVgXOHW+ndJ/kzS/P81dnvDo4TUlvDoHJl62tR2cB //
+// t2tKcB+ty4WxK8MOk4Y88x9KKCREY9j8ORhAfSjoZjU5zfQISBdJ0NfoQMVJ9hV14IHN+K/0dSPuik9FBd7UTJ //
+// T1w/LXPDHiqx+tT+RPaB7cZhPdjfO+JbrWviP/CprsBuk+VG9Z5vMZQg1PSPSQNQ9eLKfPVvGHCa2hpLV9p4Cw //
+// LdZ2QCp/HFhxDWYMu+dbcdjO8avs1BkLrifdZDUaQ+BvMLLWagwJQtqy/2GvcJ/ClzxZHDGqC18/bXgIgP7tW/ //
+// YwuBE9zuFYEkF49a7MnOf4rvlJ1TQYTQ721pc14jSRDO6v7iZDT1nxa/PoqH6j4O9uPNlHlGG3ViQ2uCC9nGLo //
+// WDtUwIaqIARB4SIyvIiua+rbdh8YnmuNQQ== cperkins@tae6640-mlap.tae.trialphaenergy.com      //
+//----------------------------------------------------------------------------------------//
