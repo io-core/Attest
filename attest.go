@@ -205,7 +205,7 @@ func findSig(contents []byte) (o int, al, hl, bl string) {
 	return o, al, hl, bl
 }
 
-func check(contents []byte,tkeysf string) {
+func check(contents []byte,tkfn string) {
 
 	o, al, hl, bl := findSig(contents)
 	message := append(contents[:o], "\n"+al...)
@@ -236,8 +236,21 @@ func check(contents []byte,tkeysf string) {
 			fmt.Println("verify error:", err)
 			os.Exit(1)
 		} else {
-			fmt.Println("verify success!")
-			os.Exit(0)
+			tk, _ := ioutil.ReadFile(tkfn)
+			tkeys:=strings.Split(string(tk),"\n")
+			found := false
+			for _,v := range tkeys {
+				if v == bl {
+					found = true
+				}
+			}
+			if found {
+				fmt.Println("verify success!")
+				os.Exit(0)
+			}else{
+                                fmt.Println("public key of signature not found in trusted_devs file")
+                                os.Exit(2)
+			}
 		}
 	}
 

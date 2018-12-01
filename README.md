@@ -11,6 +11,7 @@ $ cp hello.sh hello.sh.bak
 (a.k.a. attest -c) a tool to check the integrity of a signature attached to a file
 
 ```
+$ cp ~/.ssh/id_rsa.pub > ~/.ssh/trusted_devs
 $ acheck hello.sh
 verify success!
 $ perl -pi -e 's/Hello/Goodbye/g' hello.sh 
@@ -29,6 +30,18 @@ $ ifaok hello.sh There
 verify success!
 Hello from the shell script...
 There
+```
+
+# id_rsa, id_rsa.pub, and trusted_devs
+
+attest and acheck use your ssh private and public keys to sign and to verify signatures. Another file in the same directory called trusted_devs contains a list of public keys that acheck will accept as trusted.
+
+```
+$ ./acheck s2r/s2r.go 
+public key of signature not found in trusted_devs file
+$ ./acheck -k s2r/s2r.go  >> ~/.ssh/trusted_devs 
+$ ./acheck s2r/s2r.go 
+verify success!
 ```
 
 # more info
