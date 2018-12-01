@@ -239,24 +239,16 @@ func main() {
 
 //----Attest-0.1.0------------------------------------------------------------------------//
 // signed                                                                                 //
-// 2018-11-30 16:51:07                                                                    //
+// 2018-11-30 18:51:01                                                                    //
 //----------------------------------------------------------------------------------------//
-// IgN2YoEjqlE8btEOCnQfFazAyTvuGzo4R09JCdvqA7UiCxL7V0rkjVE/LPRMHcszhXG+ezq+dpY7dqBIfZCFDF //
-// 46dX8HGOZea8ZR3F4CXEqiNLTbJUZGKo1jj4CDEayNhGZPF6Z3b9x56Vk8BQxin1CFP0YyOo1AtmNzLRkweJG/ //
-// UvfzLNtlEPSo1AnkOQXVfajJkurNwijXabOPvFSAcky9sHkn3vSf1ZN03oaFRwCEpOfx8LER3kBwgHBsV6ropa //
-// xjJM/+DfHFLK8PiWld3GT57UPYLreK9znP/MV/4dH54nsulh7k+zkdt23D2kHsXq8zeB7fToNxPrQHqdKrk0AV //
-// oeOgtroI44NlWlL1VUoqwj8QdZ4SHl+7KrrNlg+gWRUlZxpsnzeLQyxee9WkHa/jtMFYKnYhq/6vIC6723ivvl //
-// +Tuu9CZhTE0NtzvpLXimF+2dXlDtkhxTQ1vJHbhUXu5HUzmyCCuqROL5vo+forfwghAitu6M+aao2Mq9O//Bfa //
-// K/YaQieTtJu3keWpmGCp4O0DV4MShV4BRpTq03bCQMt7aKKUO3huBMw4hZhNldAMluv/bohKXEb0fHGwMQL2im //
-// 18NKbBg4N74QGRlIGfFqWOsMM7SrmmvhJlulQvL/p7zz/DTOgZUL/G4ZMjF0OAM61juHsRpoyHLPx7qHw=     //
+// WaogOC8ZcWJIWBG6y+d5mCgFgvCZM6V5jRWfiaUqnG1pocBAls3+IVoK3qyjrp0xa8sJbAwvWIzF7ntMzIarhP //
+// vvSGvK3Z4gdY7UXTy6K4Q81hQVqX+5eNPSmPdL84ohxfma8lzUQDKTj6gkvf+tLGTkd2SUBpmuHADRLn/MMg7F //
+// FqOarz5wdQ56l/Y0uot66OnAf2tMj0buU8LRBCouIHFfW1veSHMshv4dZ3yFHZa+lv3nf4h0DTuDZqADYJ8BTb //
+// o/TsHb02ANofmjywWz2r2PT96jHSMKvPrR5o0UOYuVVagmXLJ/sIaGRvkKTOjuHgkqdSgh1jlfPWvdMyOVBg== //
 //----------------------------------------------------------------------------------------//
-// ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCxIcfYK7mfqo7PNGmV1cq91Y8YJaQdajKleE54Tt+vj7hs0P //
-// O3be3PI9fbb0EifxjJ4QyhCvQClGOTe4Nw/0RRD1lHQVOHTeYE0BKnuLvHltyaxDc/glS5x6wy/YtnRHp5zVl2 //
-// C87BleRqtTyWfalhbRmLUl3WTiHQcPi8qXv3qJmAnDVieLLkHc4owwMgqYSeP2OJDdLszHwYM4fOgha48ByxCB //
-// MVQ8B9kX1F1wJTAkU6BxmNgp6XTTnOge8cTCNL3I2QCi5xVgXOHW+ndJ/kzS/P81dnvDo4TUlvDoHJl62tR2cB //
-// t2tKcB+ty4WxK8MOk4Y88x9KKCREY9j8ORhAfSjoZjU5zfQISBdJ0NfoQMVJ9hV14IHN+K/0dSPuik9FBd7UTJ //
-// T1w/LXPDHiqx+tT+RPaB7cZhPdjfO+JbrWviP/CprsBuk+VG9Z5vMZQg1PSPSQNQ9eLKfPVvGHCa2hpLV9p4Cw //
-// LdZ2QCp/HFhxDWYMu+dbcdjO8avs1BkLrifdZDUaQ+BvMLLWagwJQtqy/2GvcJ/ClzxZHDGqC18/bXgIgP7tW/ //
-// YwuBE9zuFYEkF49a7MnOf4rvlJ1TQYTQ721pc14jSRDO6v7iZDT1nxa/PoqH6j4O9uPNlHlGG3ViQ2uCC9nGLo //
-// WDtUwIaqIARB4SIyvIiua+rbdh8YnmuNQQ== cperkins@tae6640-mlap.tae.trialphaenergy.com      //
+// ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDsrtAUhLbs/ELXgH3OJs0SKh7tSQE/gkPavHv4//tsLucTAN //
+// C4mEjbjxKtFlZjji89GGvatnGu3DvAAz60VNEGBccezdn4rkcNpceKQe2KE2Kb13KM6VmrNl4Gj3+C278u0yKx //
+// l07WpQCYJ1x6WU8Tnrs5oRSGvHzJVvkxbH7YfymnoXbDg2j8cWYX+zNR/aYvcX+6isZmqRDg+qZ1CK45UL0sO9 //
+// GcSFyey3fGigzWGvBx9JujvsxL6aqX7yY+WtCbApeGLN4HYtrn4ueuKAQND5EYo0SEI2m+STt5eCdDBLFhG0jD //
+// 5MO6T7o//Mg8qDeuiY5wpbcQdpVWmdWQQxMT chuck@kuracali.com                                //
 //----------------------------------------------------------------------------------------//
