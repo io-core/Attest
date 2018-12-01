@@ -2,6 +2,7 @@
 a tool to digitally sign source code as a comment at the bottom of the file
 
 ```
+$ echo 'echo "Hello from the shell script..."; echo "$1"; exit 0' > hello.sh
 $ attest -f bash hello.sh >> hello.sh
 ```
 
@@ -11,6 +12,9 @@ $ attest -f bash hello.sh >> hello.sh
 ```
 $ acheck hello.sh
 verify success!
+$ perl -pi -e 's/Hello/Goodbye/g' hello.sh 
+$ acheck hello.sh 
+verify error: crypto/rsa: verification error
 ```
 
 # ifaok
