@@ -1,27 +1,27 @@
 # attest
 a tool to digitally sign source code as a comment at the bottom of the file
 
-'''
+```
 $ attest -f bash hello.sh >> hello.sh
-'''
+```
 
 # acheck
 (a.k.a. attest -c) a tool to check the integrity of a signature attached to a file
 
-'''
+```
 $ acheck hello.sh
 verify success!
-'''
+```
 
 # ifaok
 an example of checking the integrity of a shell script before executing it
 
-'''
+```
 $ ifaok hello.sh There
 verify success!
 Hello from the shell script...
 There
-'''
+```
 
 # more info
 
