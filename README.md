@@ -1,6 +1,30 @@
 # attest
 a tool to digitally sign source code as a comment at the bottom of the file
 
+'''
+$ attest -f bash hello.sh >> hello.sh
+'''
+
+# acheck
+(a.k.a. attest -c) a tool to check the integrity of a signature attached to a file
+
+'''
+$ acheck hello.sh
+verify success!
+'''
+
+# ifaok
+an example of checking the integrity of a shell script before executing it
+
+'''
+$ ifaok hello.sh There
+verify success!
+Hello from the shell script...
+There
+'''
+
+# more info
+
 Comment styles are defined for:
 
 ada
@@ -60,8 +84,8 @@ Usage of ./attest:
   -p string
     	path to rsa private key file (default "~/.ssh/id_rsa")
 
-$ ./attest -f go -i s2r/s2r.go >> s2r/s2r.go
-$ ./attest -c -i s2r/s2r.go
+$ ./attest -f go s2r/s2r.go >> s2r/s2r.go
+$ ./attest -c s2r/s2r.go
 verify success!
 $ tail -n 20 s2r/s2r.go 
 	rv = rv + fmt.Sprintf("%v\n", out)
