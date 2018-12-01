@@ -4,6 +4,7 @@ a tool to digitally sign source code as a comment at the bottom of the file
 ```
 $ echo 'echo "Hello from the shell script..."; echo "$1"; exit 0' > hello.sh
 $ attest -f bash hello.sh >> hello.sh
+$ cp hello.sh hello.sh.bak
 ```
 
 # acheck
@@ -21,6 +22,9 @@ verify error: crypto/rsa: verification error
 an example of checking the integrity of a shell script before executing it
 
 ```
+$ ifaok hello.sh There
+verify error: crypto/rsa: verification error
+$ cp hello.sh.bak hello.sh 
 $ ifaok hello.sh There
 verify success!
 Hello from the shell script...
