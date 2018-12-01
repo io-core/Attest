@@ -1,5 +1,51 @@
 # attest
 a tool to digitally sign source code as a comment at the bottom of the file
+
+Comment styles are defined for:
+
+ada
+actionscript
+applescript
+assembly
+bash
+c
+c#
+c++
+clojure
+coffeescript
+css
+delphi
+erlang
+f90
+FORTRAN
+go
+haskell
+haskellb
+html
+ios
+java
+javascript
+lua
+matlab
+shell
+modula2
+oberon
+objectivec
+ocaml
+pascal
+perl
+php
+powershell
+python
+ruby
+sql
+scala
+swift
+tpascal
+vb
+xml
+
+
 ```
 $ ./attest -h
 Usage of ./attest:
