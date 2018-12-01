@@ -4,19 +4,21 @@
 
 if [ $? -eq 0 ]
 then
-  bash $1
+  ITEM=$1
+  shift
+  bash $ITEM "$@"
 else
   exit 1
 fi
 
 # ----Attest-0.1.0------------------------------------------------------------------------ #
 #  signed                                                                                  #
-#  2018-12-01 11:41:52                                                                     #
+#  2018-12-01 11:54:50                                                                     #
 # ---------------------------------------------------------------------------------------- #
-#  lEltWTJOX2gQMnH4Elync9d7640rwU+/H3tDGUudVnS1OgsXd4f31iNmQlk4MTwiowbH9hqoVX2BWbGKsx1bik  #
-#  +Ae+5Lrqe4NfDcQWgbB6IaWuzMA1XZnoR4BH5cKq9T9yv2XTsC1X12NanIJFZbgPfJxACH/u1kbYrL+bawEggI  #
-#  oDcStWgSvh8Y+hs9sBu5mUUOGVf7xg+NJIZ9LkLZlojU3dICfLuzmEtht9okx3tCOHdTxLwDkt214dUYXwOSYK  #
-#  W+OCGqPbTJv3WuvXC+Y0o/Ptyv+sO6jPgugfy5fJPvUBsqxXve7/PJHH7bW4WjnmcUfgtoio5UgEyqejIorw==  #
+#  4Y5thZrc8vUovesri55/SaCb+0hmn4tH0mG/7uQGMTt0AllXptMU2bIeIn4mbT8OTDRaSlcSmIMh86ZFzPblvq  #
+#  eUp2Srisv7UyRj/tnBbbA4mGM6haGeqLxRD8PhIePxEBNqbRNBAV1ZWHcLGOUMZjJlzRKne3fTN5kjrYJE3/ik  #
+#  ZhPvKwJtUIzFnmxFBaWv90CoYu+42f+TElEdoxBunQDzZmA66JSrsfL31Eka3E2WJRT6CQaLt7F5TLihoOxmL2  #
+#  6KbQZu9CjHu8OTTPhhnpz8jomS2nf9F1ZslpXtRoYl8fUHO3cEDGSQgtC8nvcMbK5iyDbgRS6G0RWToS6TGA==  #
 # ---------------------------------------------------------------------------------------- #
 #  ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDsrtAUhLbs/ELXgH3OJs0SKh7tSQE/gkPavHv4//tsLucTAN  #
 #  C4mEjbjxKtFlZjji89GGvatnGu3DvAAz60VNEGBccezdn4rkcNpceKQe2KE2Kb13KM6VmrNl4Gj3+C278u0yKx  #
