@@ -269,12 +269,21 @@ func main() {
 
 	flag.Parse()
 
+	
+
 	iam := filepath.Base(os.Args[0])
 	if iam == "acheck" {
 		f := true
 		checkPtr = &f
 	}
-	contents, _ := ioutil.ReadFile(*inFilePtr)
+
+	tail:= flag.Args()
+	var contents []byte
+	if len(tail)>0 {
+	  contents, _ = ioutil.ReadFile(tail[0])
+	}else{
+	  contents, _ = ioutil.ReadFile(*inFilePtr)
+	}
 
 	if *checkPtr {
 		check(contents)
@@ -286,12 +295,12 @@ func main() {
 
 //----Attest-0.1.0------------------------------------------------------------------------//
 // signed                                                                                 //
-// 2018-12-01 08:15:59                                                                    //
+// 2018-12-01 09:28:22                                                                    //
 //----------------------------------------------------------------------------------------//
-// 64w0xnwREeM0K8XyOag2RMWqLO97iz7HB7VmWLiLSMyww+ZmKSDquLYLCpFrWqNupN5f3b1gOxk1viZzBoA2TY //
-// IwuQ+6TLuj4DfAZdSq8T+WsmBNFUhwIWRezpzCNtaTqsfbwuTyBcR+xcTaRImzpBbNkSvp4A7q2A4A9ft2ex2w //
-// H1a1CQ1DPQgtFTkfwNGWE/8qFIDXjfmabzhiNCGxc7+U/PFeMDU6i+t/HrhqLX6cvmEsU/JLvAwYRNbuwOQ1AN //
-// iVkBGkF6Ezv9Rz1tBCouoe2jceZUBbXjzCmKa5UIz4+jdK1D5FWrPgVjco0ffDDHFAy5FP1cp2ztRVcnANHg== //
+// 3EilaQdgSbRia+0itEA+ac9/BL4tgyzdw8Jk74v+cSPQ7ndE5NLnzKRXfqldCdV3B3E+tJQwQuG1iVTG/Bd8iz //
+// hcsnkzFXDU4evc1Pa+8HHWBCeq1r9cTkHxNepLMsN6QE0HAxqfw5+khd1TNPUG+EXoEROQoNMiMnABEunea7tx //
+// aoYWQCClfauHcEMx03rqTpPyHa1MfhzRqjP+l3DwRfAzplHBhy9apn5jjbF4pZbRPC88PASJct2EJabdjukia+ //
+// xGv/j9FvKOzC/XAvlmhmxkll3xo4Z5UlTTEM4lvQ7ydmei8pJ2nTVP6nZkDw+Um/o4BXdXrikFPoaTpp7SXg== //
 //----------------------------------------------------------------------------------------//
 // ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDsrtAUhLbs/ELXgH3OJs0SKh7tSQE/gkPavHv4//tsLucTAN //
 // C4mEjbjxKtFlZjji89GGvatnGu3DvAAz60VNEGBccezdn4rkcNpceKQe2KE2Kb13KM6VmrNl4Gj3+C278u0yKx //
