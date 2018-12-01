@@ -205,7 +205,7 @@ func findSig(contents []byte) (o int, al, hl, bl string) {
 	return o, al, hl, bl
 }
 
-func check(contents []byte) {
+func check(contents []byte,tkeysf string) {
 
 	o, al, hl, bl := findSig(contents)
 	message := append(contents[:o], "\n"+al...)
@@ -266,6 +266,7 @@ func main() {
 	formatPtr := flag.String("f", "oberon", "attest comment style")
 	pkeyPtr := flag.String("p", os.Getenv("HOME")+"/.ssh/id_rsa", "path to rsa private key file")
 	bkeyPtr := flag.String("b", os.Getenv("HOME")+"/.ssh/id_rsa.pub", "path to rsa public key file")
+        tkeysPtr := flag.String("t", os.Getenv("HOME")+"/.ssh/trusted_devs", "path to trusted_devs file")
 	checkPtr := flag.Bool("c", false, "check instead of sign")
         rkeyPtr := flag.Bool("k", false, "retrieve public key from input file")
 
@@ -291,7 +292,7 @@ func main() {
 	        _, _, _, bl := findSig(contents)
 	        fmt.Println(bl)
         } else if *checkPtr {
-                check(contents)
+                check(contents,*tkeysPtr)
 	} else {
 		l,r := findFormat(*formatPtr)
 		sign(contents, *aMessagePtr, l, r, *pkeyPtr, *bkeyPtr)
