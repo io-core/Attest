@@ -258,16 +258,20 @@ func check(contents []byte,tkfn string) {
 
 
 func findFormat(s string)(l,r string){
-	
-        for _,v := range strings.Split( formatc, "\n"){
-                e:= strings.Split( v, ",")
-                if len(e)==3 {
-                        if e[2] == s {
-				l=e[0]
-				r=e[1]
-			}
-                }
-        }
+	if s == "csv" {
+		l=" ,"
+		r=", "
+	}else{	
+        	for _,v := range strings.Split( formatc, "\n"){
+                	e:= strings.Split( v, ",")
+                	if len(e)==3 {
+                	        if e[2] == s {
+					l=e[0]
+					r=e[1]
+				}
+                	}
+        	}
+	}
 	return l,r
 }
 
@@ -311,19 +315,3 @@ func main() {
 		sign(contents, *aMessagePtr, l, r, *pkeyPtr, *bkeyPtr)
 	}
 }
-
-//----Attest-0.1.0------------------------------------------------------------------------//
-// signed                                                                                 //
-// 2019-03-13 09:53:16                                                                    //
-//----------------------------------------------------------------------------------------//
-// EhKRLdJg7cRaEovzOsJc8ul0xV23YcURmt/whNwK+o5VwY8/k1UpVnVxoOi3c+U/Brjb4fSAPJOKUXIzsxlXP4 //
-// OSgsfnYKOdetAYQqC4IF2AUpQqyH4KxWn0UVzi0mZlB54O7z/GSdSBBwnXWTEXwIkP4pNucs8709ts91dtFyff //
-// fWoFbeBcbWEiAqqfXA1HizPpoesNbe7RVDxluUcAwr9QK7mwEiSEqyPMrWn22xe55QxQH5mPnkhGu1s2rqy0V7 //
-// uhVL3zMPY6OVmMRMqmE14ikSceApxaj2E5hC5vlWP4eTwzv3Eshk8erbNO9racs1hVYFGa4oYVB14Er22uiw== //
-//----------------------------------------------------------------------------------------//
-// ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDsrtAUhLbs/ELXgH3OJs0SKh7tSQE/gkPavHv4//tsLucTAN //
-// C4mEjbjxKtFlZjji89GGvatnGu3DvAAz60VNEGBccezdn4rkcNpceKQe2KE2Kb13KM6VmrNl4Gj3+C278u0yKx //
-// l07WpQCYJ1x6WU8Tnrs5oRSGvHzJVvkxbH7YfymnoXbDg2j8cWYX+zNR/aYvcX+6isZmqRDg+qZ1CK45UL0sO9 //
-// GcSFyey3fGigzWGvBx9JujvsxL6aqX7yY+WtCbApeGLN4HYtrn4ueuKAQND5EYo0SEI2m+STt5eCdDBLFhG0jD //
-// 5MO6T7o//Mg8qDeuiY5wpbcQdpVWmdWQQxMT chuck@kuracali.com                                //
-//----------------------------------------------------------------------------------------//
