@@ -32,7 +32,7 @@ import (
 	"encoding/pem"
 	"flag"
 	"fmt"
-	"github.com/io-core/attest/s2r"
+	"github.com/io-core/Attest/s2r"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -314,12 +314,12 @@ func main() {
 
 //----Attest-0.1.0------------------------------------------------------------------------//
 // signed                                                                                 //
-// 2018-12-01 14:17:41                                                                    //
+// 2019-03-13 09:53:16                                                                    //
 //----------------------------------------------------------------------------------------//
-// FKek203+5rwK2jFu5p2+xFYCy5nGlaDDrgA/k8GrAz5OOrsVHx2hGCJNZ+sdRJkj7f3eZUxNua97gkcLwnEvg7 //
-// kUp+WIRzS2RIc30EhGOc2Ce35qSPWnHWa7EbHtOpd5iebSObzZ7QCWNQgiyQYPE6F5Ew7/nWWKPmSo/Z+CNM9L //
-// E4t2E4nwtlLF00qjeBRqnwWeyBaOnrdZ2Y4T5Y4bwsyR0iEGdzAEu6fVXBH6Z3mYcKvImo177EKXhZenn9+mO1 //
-// ROkH1IVd9/wWwt5jQlkMp9EVWfBjN87P+O3usA9j3b6gHwyU3L4Qrm8lY1EwQGBPfDfU3wFMcehh5yxRaIEw== //
+// EhKRLdJg7cRaEovzOsJc8ul0xV23YcURmt/whNwK+o5VwY8/k1UpVnVxoOi3c+U/Brjb4fSAPJOKUXIzsxlXP4 //
+// OSgsfnYKOdetAYQqC4IF2AUpQqyH4KxWn0UVzi0mZlB54O7z/GSdSBBwnXWTEXwIkP4pNucs8709ts91dtFyff //
+// fWoFbeBcbWEiAqqfXA1HizPpoesNbe7RVDxluUcAwr9QK7mwEiSEqyPMrWn22xe55QxQH5mPnkhGu1s2rqy0V7 //
+// uhVL3zMPY6OVmMRMqmE14ikSceApxaj2E5hC5vlWP4eTwzv3Eshk8erbNO9racs1hVYFGa4oYVB14Er22uiw== //
 //----------------------------------------------------------------------------------------//
 // ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDsrtAUhLbs/ELXgH3OJs0SKh7tSQE/gkPavHv4//tsLucTAN //
 // C4mEjbjxKtFlZjji89GGvatnGu3DvAAz60VNEGBccezdn4rkcNpceKQe2KE2Kb13KM6VmrNl4Gj3+C278u0yKx //
