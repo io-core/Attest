@@ -315,3 +315,19 @@ func main() {
 		sign(contents, *aMessagePtr, l, r, *pkeyPtr, *bkeyPtr)
 	}
 }
+
+//----Attest-0.1.0------------------------------------------------------------------------//
+// signed                                                                                 //
+// 2019-03-13 09:57:24                                                                    //
+//----------------------------------------------------------------------------------------//
+// BkVpb/Yrtar+2ezFSTxH89abN3+bVNdyzW0g2OAeV6nEvKgJjYo/m0fI7E2cYuGDLPOmsG/UREJQiw8gpf3Zaq //
+// BMkaYnkNhVnBdGgmmUgDKgPn59daXyDnttL4v/7t1SOLNvlxUFcUxw9A4aPRvKcjAokna8+tu34UfAhqGoIf20 //
+// bsLaXOGr0PZw6Z2zNnNMWSe91+A45DyX56yI4/9MwOl9L6UnMx7li6IMLMh8WEDq+nKIes2CZCHFb9GFhWLqXn //
+// YiQF+ClVX0/ybBbDSRr56jrKPlKC48PTsmlPkjGbgbTrgMOp6BmzygYzGyrPJ3g41AXew9TYVP8+bziFctgA== //
+//----------------------------------------------------------------------------------------//
+// ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDsrtAUhLbs/ELXgH3OJs0SKh7tSQE/gkPavHv4//tsLucTAN //
+// C4mEjbjxKtFlZjji89GGvatnGu3DvAAz60VNEGBccezdn4rkcNpceKQe2KE2Kb13KM6VmrNl4Gj3+C278u0yKx //
+// l07WpQCYJ1x6WU8Tnrs5oRSGvHzJVvkxbH7YfymnoXbDg2j8cWYX+zNR/aYvcX+6isZmqRDg+qZ1CK45UL0sO9 //
+// GcSFyey3fGigzWGvBx9JujvsxL6aqX7yY+WtCbApeGLN4HYtrn4ueuKAQND5EYo0SEI2m+STt5eCdDBLFhG0jD //
+// 5MO6T7o//Mg8qDeuiY5wpbcQdpVWmdWQQxMT chuck@kuracali.com                                //
+//----------------------------------------------------------------------------------------//
