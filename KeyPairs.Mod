@@ -1,7 +1,7 @@
-(* begin-module-description
+(* begin-module-use-description
 Module KeyPairs provides the data structures used by the Attest package for code provenance.
 
-end-module-description *)
+end-module-use-description *)
 MODULE KeyPairs;
 IMPORT SYSTEM, Kernel, Oberon;
 

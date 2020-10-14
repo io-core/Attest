@@ -1,7 +1,7 @@
-(* begin-module-description
+(* begin-module-use-description
 Module KeySafes keeps the secrets used to sign and trust signed code.
 
-end-module-description *)
+end-module-use-description *)
 MODULE KeySafes;
 
   IMPORT SYSTEM, Files, Fonts, KeyPairs;
