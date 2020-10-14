@@ -1,3 +1,12 @@
+(* begin-package-description
+Module Attest provides tools and algoritms for code signing and attestation of provenance.
+
+end-package-description *)
+
+(* begin-module-description
+Module Attest provides commands for code signing and checking provenance.
+
+end-module-description *)
 MODULE Attest;
 
   IMPORT Files, Fonts, Viewers, Texts, Oberon,

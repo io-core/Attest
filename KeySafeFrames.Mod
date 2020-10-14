@@ -1,3 +1,7 @@
+(* begin-module-description
+Module KeySafeFrames provides a user-interface to the keys used to sign and to trust signed code.
+
+end-module-description *)
 MODULE KeySafeFrames;
 
   IMPORT SYSTEM, Display, Viewers, Input, Fonts, Texts, KeySafes, Oberon, MenuViewers;

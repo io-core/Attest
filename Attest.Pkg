@@ -2,10 +2,10 @@ k,v1,v2
 package,Attest,v0.1.0
 from,github.com/io-core,whenever
 license,MIT,The io-core Authors
-doc,extlib,provides code provenance tools for use in Oberon.
+doc,explib,provides code provenance tools for use in Oberon.
 r,[core]/Crypto,v0.0.0
 r,[core]/System,v5.0.0
-p,KeySafes.Mod,85d7f349c6485c0d45a4b2c8f237c13bf4468cfb1591068b7d16b3456303756b
 p,Attest.Mod,3b3ddd453ae2fd45a66c9097a51a0dcd8c114ec921bf42347c54672636ae2654
-p,KeyPairs.Mod,43b8c5a566877ef2397a1173ca51d3bfbd873efd106f14cb6fcfc7cb4e8afaeb
 p,KeySafeFrames.Mod,6d2c04420cd7eeb344566ac1dbedc2f008bf7cce0948010a6dcc8671e53af8cc
+p,KeySafes.Mod,85d7f349c6485c0d45a4b2c8f237c13bf4468cfb1591068b7d16b3456303756b
+p,KeyPairs.Mod,43b8c5a566877ef2397a1173ca51d3bfbd873efd106f14cb6fcfc7cb4e8afaeb
