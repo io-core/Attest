@@ -76,6 +76,10 @@ MODULE KeySafeFrames;
     Restore, Focus, Selected, This, Draw, DrawNorm, Erase,
     DrawObj, EraseObj, Change, Defocus, Deselect, Macro, Open*)
 
+  (* begin-section-description
+## ---------- Oberon Message Handling
+  end-section-description *)
+
   PROCEDURE SetChangeMark(f: Frame; col: INTEGER); (*set mark in corner of frame*)
   BEGIN
     IF f.H > 16 THEN
