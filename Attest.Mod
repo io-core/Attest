@@ -1,3 +1,7 @@
+(* begin-module-short-description
+provides a visual inteface for code signing and provenance.
+end-module-short-description *)
+
 (* begin-package-description
 Module Attest provides tools and algoritms for code signing and attestation of provenance.
 

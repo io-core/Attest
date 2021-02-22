@@ -1,3 +1,7 @@
+(* begin-module-short-description
+provides routines for handling key pairs.
+end-module-short-description *)
+
 (* begin-module-use-description
 Module KeyPairs provides the data structures used by the Attest package for code provenance.
 
