@@ -59,8 +59,6 @@ MODULE KeySafes;
     END;
 
     MethodDesc* = RECORD
-(*        module*, allocator*: Name;
-        new*: Modules.Command;             *)
         copy*: PROCEDURE (from, to: KeyRing);
         draw*, change*: PROCEDURE (R: KeyRing; VAR msg: Msg);
         selectable*: PROCEDURE (R: KeyRing; x, y: INTEGER): BOOLEAN;
@@ -70,12 +68,11 @@ MODULE KeySafes;
       END ;
 
     
-VAR 
- 
-  res*: INTEGER;
-  width: INTEGER;
-  new*: KeyRing; 
-  LineMethod*, CapMethod*, MacMethod* : Method;
+  VAR
+    res*: INTEGER;
+    width: INTEGER;
+    new*: KeyRing; 
+    LineMethod*, CapMethod*, MacMethod* : Method;
 
   PROCEDURE New*(R: KeyRing);
   BEGIN   new := R 

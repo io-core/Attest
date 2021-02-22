@@ -7,14 +7,18 @@ Module KeyPairs provides the data structures used by the Attest package for code
 
 end-module-use-description *)
 MODULE KeyPairs;
-IMPORT SYSTEM, Kernel, Oberon;
+  IMPORT SYSTEM, Kernel, Oberon;
 
-TYPE
-  KeyPair* = POINTER TO KeyPairDesc;
-  KeyPairDesc* = RECORD
-    value*: INTEGER;
-    next: KeyPair
-  END;
+  CONST
+
+  TYPE
+    KeyPair* = POINTER TO KeyPairDesc;
+    KeyPairDesc* = RECORD
+      value*: INTEGER;
+      next: KeyPair
+    END;
+
+  VAR
 
 PROCEDURE New*(P: KeyPair; v: INTEGER) : KeyPair;
 BEGIN
